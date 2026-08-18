@@ -1,0 +1,42 @@
+# Root .gitignore - TaskMaster Monorepo
+
+# Environment variables & secrets (CRITICAL - NEVER COMMIT)
+.env
+.env.*
+!.env.example
+*.local
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.DS_Store
+Thumbs.db
+
+# Build Outputs
+target/
+dist/
+build/
+bin/
+out/
+coverage/
+
+# Node & Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Logs
+*.log
+logs/
