@@ -6,6 +6,11 @@ import com.taskmaster.dtos.task.UpdateTaskRequest;
 import com.taskmaster.models.TaskStatus;
 import com.taskmaster.services.TaskService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +28,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/projects/{projectId}/tasks")
+@Tag(name = "Tasks", description = "Task management operations")
+@SecurityRequirement(name = "cookieAuth")
 public class TaskController {
 
     private final TaskService taskService;
@@ -32,6 +39,13 @@ public class TaskController {
     }
 
     @PostMapping
+        @Operation(summary = "Create a task in a project")
+        @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Task created"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "403", description = "Project belongs to another user"),
+            @ApiResponse(responseCode = "404", description = "Project not found")
+        })
     public ResponseEntity<TaskResponse> create(
             @PathVariable Long projectId,
             @Valid @RequestBody CreateTaskRequest request) {
@@ -40,6 +54,12 @@ public class TaskController {
     }
 
     @GetMapping
+        @Operation(summary = "List tasks in a project")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Tasks returned"),
+            @ApiResponse(responseCode = "403", description = "Project belongs to another user"),
+            @ApiResponse(responseCode = "404", description = "Project not found")
+        })
     public ResponseEntity<List<TaskResponse>> listByProject(
             @PathVariable Long projectId,
             @RequestParam(required = false) TaskStatus status) {
@@ -47,6 +67,12 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
+        @Operation(summary = "Get a task by ID")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Task returned"),
+            @ApiResponse(responseCode = "403", description = "Resource belongs to another user"),
+            @ApiResponse(responseCode = "404", description = "Task not found")
+        })
     public ResponseEntity<TaskResponse> findById(
             @PathVariable Long projectId,
             @PathVariable Long taskId) {
@@ -54,6 +80,13 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
+        @Operation(summary = "Update a task")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Task updated"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "403", description = "Resource belongs to another user"),
+            @ApiResponse(responseCode = "404", description = "Task not found")
+        })
     public ResponseEntity<TaskResponse> update(
             @PathVariable Long projectId,
             @PathVariable Long taskId,
@@ -62,6 +95,12 @@ public class TaskController {
     }
 
     @DeleteMapping("/{taskId}")
+        @Operation(summary = "Delete a task")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Task deleted"),
+            @ApiResponse(responseCode = "403", description = "Resource belongs to another user"),
+            @ApiResponse(responseCode = "404", description = "Task not found")
+        })
     public ResponseEntity<Map<String, String>> delete(
             @PathVariable Long projectId,
             @PathVariable Long taskId) {

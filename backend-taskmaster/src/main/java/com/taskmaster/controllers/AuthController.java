@@ -9,6 +9,11 @@ import com.taskmaster.security.CookieService;
 import com.taskmaster.services.AuthService;
 import com.taskmaster.services.UserService;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -23,6 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Registration, login, logout and current-user operations")
 public class AuthController {
 
     private final AuthService authService;
@@ -40,6 +46,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+        @Operation(summary = "Register a user")
+        @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "409", description = "Email already registered")
+        })
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         AuthService.AuthResult result = authService.register(request);
         ResponseCookie jwtCookie = cookieService.createJwtCookie(result.token());
@@ -50,6 +62,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+        @Operation(summary = "Authenticate a user")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login successful; JWT is sent as an HttpOnly cookie"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials")
+        })
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         AuthService.AuthResult result = authService.login(request);
         ResponseCookie jwtCookie = cookieService.createJwtCookie(result.token());
@@ -60,6 +78,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
+    @Operation(summary = "Log out the current user")
+    @ApiResponse(responseCode = "200", description = "Logout successful")
     public ResponseEntity<Map<String, String>> logout() {
         ResponseCookie cleanCookie = cookieService.createCleanJwtCookie();
 
@@ -69,6 +89,12 @@ public class AuthController {
     }
 
     @GetMapping("/me")
+        @Operation(summary = "Get the authenticated user")
+        @SecurityRequirement(name = "cookieAuth")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Authenticated user returned"),
+            @ApiResponse(responseCode = "401", description = "Authentication required")
+        })
     public ResponseEntity<UserResponse> getCurrentUser() {
         User authenticatedUser = userService.getAuthenticatedUser();
         return ResponseEntity.ok(UserResponse.fromEntity(authenticatedUser));
