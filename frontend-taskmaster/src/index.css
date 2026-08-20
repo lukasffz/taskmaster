@@ -1,19 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --bg: #eef3f0;
-  --bg-elevated: #f8fbf8;
-  --surface: rgba(248, 251, 248, .82);
+  --bg: #f8fafc;
+  --bg-elevated: #ffffff;
+  --surface: rgba(255, 255, 255, .88);
   --surface-strong: #ffffff;
-  --text: #172a2c;
-  --muted: #657a78;
-  --line: #c6d6d1;
-  --brand: #126b68;
-  --brand-strong: #0b4e56;
-  --signal: #e17a3f;
-  --success: #42a879;
-  --danger: #c95f5b;
-  font-family: "DM Sans", "Trebuchet MS", sans-serif;
+  --text: #0f172a;
+  --muted: #475569;
+  --line: #cbd5e1;
+  --brand: #6366f1;
+  --brand-strong: #4f46e5;
+  --signal: #6366f1;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -29,16 +33,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 ::selection { color: #fff; background: var(--brand); }
 
 :root[data-theme="dark"] {
-  --bg: #091619;
-  --bg-elevated: #0e2024;
-  --surface: rgba(14, 32, 36, .88);
-  --surface-strong: #12282d;
-  --text: #e8f2ed;
-  --muted: #91aaa5;
-  --line: #29454a;
-  --brand: #5ed7c0;
-  --brand-strong: #9ae9d5;
-  --signal: #f09a5b;
-  --success: #72d5a0;
-  --danger: #ef8178;
+  --bg: #0f172a;
+  --bg-elevated: #1e293b;
+  --surface: rgba(30, 41, 59, .9);
+  --surface-strong: #1e293b;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --line: #334155;
+  --brand: #818cf8;
+  --brand-strong: #a5b4fc;
+  --signal: #818cf8;
+  --success: #4ade80;
+  --danger: #f87171;
 }
