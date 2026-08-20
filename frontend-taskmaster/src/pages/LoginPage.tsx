@@ -1,5 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { ThemeToggle } from '../components/ui/ThemeToggle'
 import { useAuth } from '../hooks/useAuth'
 
 export function LoginPage() {
@@ -23,5 +24,5 @@ export function LoginPage() {
 }
 
 function AuthForm({ title, subtitle, onSubmit, error, children }: { title: string; subtitle: string; onSubmit: (event: FormEvent) => void; error: string; children: ReactNode }) {
-  return <main className="auth-layout"><div className="auth-copy"><span className="brand-mark">TM</span><p className="eyebrow">TaskMaster</p><h1>{title}</h1><p className="lead">{subtitle}</p></div><form className="auth-form" onSubmit={onSubmit}>{error && <p className="form-error" role="alert">{error}</p>}{children}</form></main>
+  return <main className="auth-layout"><div className="auth-theme"><ThemeToggle /></div><div className="auth-copy"><span className="brand-mark">TM</span><p className="eyebrow">TaskMaster / access</p><h1>{title}</h1><p className="lead">{subtitle}</p></div><form className="auth-form" onSubmit={onSubmit}>{error && <p className="form-error" role="alert">{error}</p>}{children}</form></main>
 }

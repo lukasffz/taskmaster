@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { projectService } from '../api/services/projectService'
 import { taskService } from '../api/services/taskService'
 import { FeatureCarousel } from '../components/ui/FeatureCarousel'
+import { ThemeToggle } from '../components/ui/ThemeToggle'
 import { useAuth } from '../hooks/useAuth'
 
 type Project = { id: number; name: string; description?: string }
@@ -137,7 +138,7 @@ export function DashboardPage() {
   }
 
   return <main className="dashboard-layout">
-    <nav className="topbar"><span className="brand-mark">TM</span><span className="brand-name">TaskMaster</span><span className="user-label">{user?.name}</span><button className="ghost-button" onClick={handleLogout}>Sair</button></nav>
+    <nav className="topbar"><span className="brand-mark">TM</span><span className="brand-name">TaskMaster</span><span className="user-label">{user?.name}</span><ThemeToggle /><button className="ghost-button" onClick={handleLogout}>Sair</button></nav>
     <section className="dashboard-hero"><p className="eyebrow">Seu workspace</p><h1>Olá, {user?.name.split(' ')[0]}.</h1><p className="lead">Transforme intenção em progresso visível.</p></section>
     <FeatureCarousel />
     {feedback && <div className="toast" role="status">{feedback}</div>}

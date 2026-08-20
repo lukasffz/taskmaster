@@ -1,14 +1,44 @@
 @import "tailwindcss";
 
 :root {
+  --bg: #eef3f0;
+  --bg-elevated: #f8fbf8;
+  --surface: rgba(248, 251, 248, .82);
+  --surface-strong: #ffffff;
+  --text: #172a2c;
+  --muted: #657a78;
+  --line: #c6d6d1;
+  --brand: #126b68;
+  --brand-strong: #0b4e56;
+  --signal: #e17a3f;
+  --success: #42a879;
+  --danger: #c95f5b;
   font-family: "DM Sans", "Trebuchet MS", sans-serif;
-  color: #1f2a2e;
-  background: #f1f4ef;
+  color: var(--text);
+  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; }
-button, input { font: inherit; }
+html { background: var(--bg); transition: background-color .35s ease, color .35s ease; }
+body { margin: 0; min-width: 320px; background: var(--bg); transition: background-color .35s ease, color .35s ease; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { color: #fff; background: var(--brand); }
+
+:root[data-theme="dark"] {
+  --bg: #091619;
+  --bg-elevated: #0e2024;
+  --surface: rgba(14, 32, 36, .88);
+  --surface-strong: #12282d;
+  --text: #e8f2ed;
+  --muted: #91aaa5;
+  --line: #29454a;
+  --brand: #5ed7c0;
+  --brand-strong: #9ae9d5;
+  --signal: #f09a5b;
+  --success: #72d5a0;
+  --danger: #ef8178;
+}
