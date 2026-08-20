@@ -10,7 +10,12 @@ apiClient.interceptors.response.use(
     return response
   },
   async (error: unknown) => {
-    if (!axios.isAxiosError(error) || !error.config || error.response?.status === 401) {
+    if (!axios.isAxiosError(error) || !error.config) {
+      return Promise.reject(error)
+    }
+
+    if (error.response?.status === 401) {
+      window.dispatchEvent(new Event('taskmaster:session-expired'))
       return Promise.reject(error)
     }
 
