@@ -237,4 +237,12 @@ h2 { margin: 26px 0 10px; color: #263b39; font-family: Georgia, serif; font-size
 .dashboard-grid article { min-height: 190px; padding: 26px; border-right: 1px solid #b9cbc0; }
 .dashboard-grid article:last-child { border-right: 0; }
 .dashboard-grid article p { color: #687873; font-size: 14px; }
+.feature-carousel { max-width: 1180px; margin: 0 auto; }
+.carousel-slide { min-height: 190px; padding: 26px; animation: arrive .45s ease-out both; }
+.carousel-slide p { color: #687873; font-size: 14px; }
+.carousel-controls { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; }
+.carousel-controls > button { border: 0; background: transparent; color: #1f5550; cursor: pointer; font-size: 20px; }
+.carousel-dots { display: flex; gap: 7px; }
+.carousel-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: #b9cbc0; cursor: pointer; }
+.carousel-dots button.active { background: #b56839; transform: scale(1.35); }
 @media (max-width: 700px) { .auth-layout { grid-template-columns: 1fr; align-content: center; gap: 42px; } .auth-copy h1, .dashboard-hero h1 { font-size: 54px; } .auth-form { padding: 24px; } .dashboard-grid { grid-template-columns: 1fr; } .dashboard-grid article { border-right: 0; border-bottom: 1px solid #b9cbc0; } }
