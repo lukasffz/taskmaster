@@ -40,3 +40,13 @@ app:
     expiration: ${JWT_EXPIRATION:86400000}
   cors:
     allowed-origins: ${FRONTEND_URL:http://localhost:5173}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
