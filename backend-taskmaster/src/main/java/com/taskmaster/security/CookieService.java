@@ -15,28 +15,36 @@ public class CookieService {
     public static final String JWT_COOKIE_NAME = "taskmaster_token";
 
     private final long jwtExpiration;
+    private final boolean cookieSecure;
+    private final String cookieSameSite;
 
-    public CookieService(@Value("${app.jwt.expiration}") long jwtExpiration) {
+    public CookieService(
+            @Value("${app.jwt.expiration}") long jwtExpiration,
+            @Value("${app.cors.allowed-origins:http://localhost:5173}") String allowedOrigins
+    ) {
         this.jwtExpiration = jwtExpiration;
+        boolean isHttpsProd = allowedOrigins.startsWith("https://");
+        this.cookieSecure = isHttpsProd;
+        this.cookieSameSite = isHttpsProd ? "None" : "Lax";
     }
 
     public ResponseCookie createJwtCookie(String token) {
         return ResponseCookie.from(JWT_COOKIE_NAME, token)
                 .httpOnly(true)
-                .secure(false) // Set to true in production with HTTPS via profile/config
+                .secure(cookieSecure)
                 .path("/")
                 .maxAge(jwtExpiration / 1000)
-                .sameSite("Lax")
+                .sameSite(cookieSameSite)
                 .build();
     }
 
     public ResponseCookie createCleanJwtCookie() {
         return ResponseCookie.from(JWT_COOKIE_NAME, "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(cookieSecure)
                 .path("/")
                 .maxAge(0)
-                .sameSite("Lax")
+                .sameSite(cookieSameSite)
                 .build();
     }
 
