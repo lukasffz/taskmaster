@@ -1,10 +1,10 @@
 services:
   - type: web
     name: taskmaster-api
-    runtime: java
+    runtime: docker
     rootDir: backend-taskmaster
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/backend-taskmaster-1.0.0.jar
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./
     healthCheckPath: /actuator/health
     envVars:
       - key: SERVER_PORT
