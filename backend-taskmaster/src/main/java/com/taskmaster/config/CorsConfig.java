@@ -24,8 +24,9 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         List<String> origins = Arrays.stream(allowedOrigins.split(","))
                 .map(String::trim)
-            .filter(origin -> !origin.isBlank())
-            .collect(java.util.stream.Collectors.toCollection(java.util.ArrayList::new));
+                .map(origin -> origin.replaceAll("/+$", ""))
+                .filter(origin -> !origin.isBlank())
+                .collect(java.util.stream.Collectors.toCollection(java.util.ArrayList::new));
 
         if (origins.contains("http://localhost:5173") && !origins.contains("http://127.0.0.1:5173")) {
             origins.add("http://127.0.0.1:5173");
