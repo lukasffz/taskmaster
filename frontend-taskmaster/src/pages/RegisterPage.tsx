@@ -5,6 +5,23 @@ import { useAuth } from '../hooks/useAuth'
 export function RegisterPage() {
   const { register } = useAuth(); const navigate = useNavigate()
   const [form, setForm] = useState({ name: '', email: '', password: '' }); const [error, setError] = useState(''); const [isSubmitting, setIsSubmitting] = useState(false)
-  const submit = async (event: FormEvent) => { event.preventDefault(); setError(''); setIsSubmitting(true); try { await register(form.name, form.email, form.password); navigate('/dashboard', { replace: true }) } catch { setError('Não foi possível criar a conta. Verifique os dados.') } finally { setIsSubmitting(false) } }
+  const submit = async (event: FormEvent) => {
+    event.preventDefault(); setError(''); setIsSubmitting(true)
+    try {
+      await register(form.name, form.email, form.password)
+      navigate('/dashboard', { replace: true })
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const res = (err as { response?: { data?: { message?: string } } }).response
+        if (res?.data?.message) {
+          setError(res.data.message)
+          return
+        }
+      }
+      setError('Não foi possível criar a conta. Verifique os dados.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
   return <main className="auth-layout"><div className="auth-copy"><span className="brand-mark">TM</span><p className="eyebrow">TaskMaster</p><h1>Comece com clareza.</h1><p className="lead">Crie seu espaço e dê forma ao próximo projeto.</p></div><form className="auth-form" onSubmit={submit}>{error && <p className="form-error" role="alert">{error}</p>}<label>Nome<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} required minLength={2} autoComplete="name" /></label><label>Email<input type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} required autoComplete="email" /></label><label>Senha<input type="password" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} required minLength={6} autoComplete="new-password" /></label><button className="primary-button" disabled={isSubmitting}>{isSubmitting ? 'Criando...' : 'Criar conta'}</button><p className="form-footer">Já tem conta? <Link to="/login">Entrar</Link></p></form></main>
 }
